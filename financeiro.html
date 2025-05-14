@@ -38,6 +38,54 @@
             </div>
         </div>
     </nav>
+    <!-- Lançamentos Financeiros -->
+     <div class="container py-5">
+        <h2 class="text-primary">Meus Lançamentos Financeiros</h2>
+     </div>
+     <div class="card w-50 mx-auto shadow"> <!-- w-25, w-50, w-75, w-100 -->
+        <div class="card-body">
+            <form id="form-lancamento">
+                <input type="hidden" id="id-edicao" />
+                <div class="mb-3">
+                    <label for="tipo" class="form-label">Tipo do Lançamento:</label>
+                    <select id="tipo" class="form-select">
+                        <option value="despesa">🔴Despesa</option>
+                        <option value="receita">🟢Receita</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="categoria" class="form-label">Categoria</label>
+                    <select id="categoria" class="form-select" required>
+                        <option value="">Selecione...</option>
+                        <option value="Alimentação">🍴Alimentação</option>
+                        <option value="Transporte">🚗Transporte</option>
+                        <option value="Aluguel">🏠Aluguel</option>
+                        <option value="Salário">💵Salário</option>
+                        <option value="Pet">🐶Pet</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="valor" class="form-label">Valor</label>
+                    <input type="number" step="0.01" min="0" id="valor" class="form-control" required title="Informe o valor do lançamento" />
+                </div>
+                <div class="mb-3">
+                    <label for="descricao" class="form-label">Descrição</label>
+                    <input type="text" id="descricao" class="form-control"/>
+                </div>
+                <div class="mb-3">
+                    <label for="data_ocorrencia" class="form-label">Data</label>
+                    <input type="date" id="data_ocorrencia" class="form-control" required />
+                </div>
+                <div class="mb-3">
+                    <label for="data_vencimento" class="form-label">Data de Vencimento</label>
+                    <input type="date" id="data_vencimento" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary">Salvar Lançamento</button>
+                <button type="button" id="cancelar-edicao" class="btn btn-secondary d-none">Cancelar Edição</button>
+            </form>
+        </div>
+     </div>
+
     <!-- JS do Bootstrap-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
