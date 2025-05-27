@@ -93,8 +93,9 @@
     <!-- Script do Supabase -->
     <script type="module">
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-        const urlSupabase = 'https://gxgdqkhkqjouxwdzjswi.supabase.co' //cole a informação do Supabase
-        const anon = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd4Z2Rxa2hrcWpvdXh3ZHpqc3dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY1NzE4NjYsImV4cCI6MjA2MjE0Nzg2Nn0.FtzvCb7sUN6QBwpAlHXNTlZfmU--RnM-2C4cUvISZ8I' //chave anônima
+        const urlSupabase = 'https://xbzlkxbouhbqzymfcqel.supabase.co' //cole a informação do Supabase
+    const anon = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhiemxreGJvdWhicXp5bWZjcWVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5MzQyMjgsImV4cCI6MjA2MTUxMDIyOH0.4ctWcUILnYN67ahItDf3comNcPzuVLz7Ach-nDYnQnk' //chave anônima
+
         const supabase = createClient(urlSupabase, anon)
         //carregando a sessão do login
         const session = JSON.parse(localStorage.getItem('session'))
@@ -105,6 +106,39 @@
             await supabase.auth.signOut() //fechamos a conexão ao Supabase
             localStorage.removeItem('session') //removemos o dado salvo
             window.location.href = 'index.html' //direciona para o login
+        }
+
+        //Salvar os dados do lançamento
+        document.getElementById('form-lancamento').addEventListener('submit', async(e) => {
+            e.preventDefault() //evita o recarregamento default
+            //obtendo o id do usuário
+            const user_id = session.user.id
+            //obtendo o id do registro
+            const id = document.getElementById('id-edicao').value
+            //alert(`O id do usuário é ${user_id}`)
+            
+            const novoLancamento = {
+                user_id,
+                tipo: tipo.value,
+                categoria: categoria.value,
+                valor: parseFloat(valor.value),
+                descricao: descricao.value,
+                data_ocorrencia: data_ocorrencia.value,
+                data_vencimento: data_vencimento.value || null
+            }
+            // console.log(novoLancamento) -- mostra no navegador
+            if (id) { //se existe o id, iremos fazer o update
+              await supabase.from('lancamentos').update(novoLancamento).eq('id', id)
+            } else { //se não existe o id, iremos inserir um novo
+              await supabase.from('lancamentos').insert(novoLancamento)
+            }
+            limparFormularioLancamento()
+        })
+
+        function limparFormularioLancamento(){
+            document.getElementById('form-lancamento').reset()
+            document.getElementById('id-edicao').value = '' 
+            alert('Lançamento efetuado com sucesso!')           
         }
     </script>
 </body>

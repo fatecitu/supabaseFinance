@@ -55,8 +55,8 @@
 <!-- Integração com o Supabase -->        
  <script type="module">
     import {createClient} from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
-    const urlSupabase = 'https://gxgdqkhkqjouxwdzjswi.supabase.co' //cole a informação do Supabase
-    const anon = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imd4Z2Rxa2hrcWpvdXh3ZHpqc3dpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY1NzE4NjYsImV4cCI6MjA2MjE0Nzg2Nn0.FtzvCb7sUN6QBwpAlHXNTlZfmU--RnM-2C4cUvISZ8I' //chave anônima
+    const urlSupabase = 'https://xbzlkxbouhbqzymfcqel.supabase.co' //cole a informação do Supabase
+    const anon = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhiemxreGJvdWhicXp5bWZjcWVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5MzQyMjgsImV4cCI6MjA2MTUxMDIyOH0.4ctWcUILnYN67ahItDf3comNcPzuVLz7Ach-nDYnQnk' //chave anônima
     const supabase = createClient(urlSupabase, anon)
 
     document.getElementById('login-form').addEventListener('submit', async(event) => {
