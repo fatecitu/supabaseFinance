@@ -85,7 +85,8 @@
             </form>
         </div>
      </div>
-
+    <!-- Listagem dos lançamentos -->
+     <ul class="list-group" id="lista-lancamentos"></ul>
     <!-- JS do Bootstrap-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
@@ -133,6 +134,7 @@
               await supabase.from('lancamentos').insert(novoLancamento)
             }
             limparFormularioLancamento()
+            carregarLancamentos()
         })
 
         function limparFormularioLancamento(){
@@ -140,6 +142,33 @@
             document.getElementById('id-edicao').value = '' 
             alert('Lançamento efetuado com sucesso!')           
         }
+
+        async function carregarLancamentos(){
+            const user_id = session.user.id
+            const {data, error} = await supabase
+            .from('lancamentos')
+            .select('*')
+            .eq('user_id', user_id)
+            .order('data_vencimento',{ascending:false})
+
+            console.log(data) //visualizar os dados
+            const lista = document.getElementById('lista-lancamentos')
+            if(data) { //existem dados na const data?
+                data.forEach(l => {
+                    const item = document.createElement('li')
+                    item.className = `list-group-item 
+                    ${
+                      l.tipo === 'receita' ? 'list-group-item-success' 
+                                           : 'list-group-item-danger'
+                    }`
+                    const texto = document.createElement('span')
+                texto.textContent = `[${l.tipo}] ${l.categoria} - R$ ${l.valor.toFixed(2)}`
+                item.appendChild(texto)
+                lista.appendChild(item)
+                })
+            }
+        }
+        carregarLancamentos() //chamando a função
     </script>
 </body>
 
