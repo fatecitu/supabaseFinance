@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8" />
-    <title>Financeiro</title>
+    <title>Extrato Financeiro</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <style>
@@ -165,37 +165,42 @@
             font-weight: 600;
         }
 
-        .table .btn-sm {
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: all 0.2s ease-in-out;
-        }
-
-        .table .btn-sm:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-        }
-
-        .btn-light {
-            background-color: #ffc107;
-            border-color: #ffc107;
-            color: #333;
-        }
-
-        .btn-light:hover {
-            background-color: #e0a800;
-            border-color: #d39e00;
-        }
-
-        .btn-dark {
-            background-color: #6f42c1;
-            border-color: #6f42c1;
-            color: #fff;
-        }
-
-        .btn-dark:hover {
-            background-color: #5c35a3;
-            border-color: #562e97;
+        /* Esconder elementos na impressão */
+        @media print {
+            body {
+                background: none !important;
+            }
+            .navbar, .btn-print, .card {
+                display: none !important;
+            }
+            .container {
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+            }
+            .table-responsive {
+                box-shadow: none !important;
+                padding: 0 !important;
+                border-radius: 0 !important;
+                background-color: #fff !important;
+            }
+            .table {
+                width: 100%;
+                border: 1px solid #dee2e6;
+            }
+            .table th, .table td {
+                border: 1px solid #dee2e6;
+                padding: 8px;
+            }
+            .table th {
+                background-color: #f2f2f2 !important;
+                color: #333 !important;
+            }
+            h2 {
+                color: #333 !important;
+                text-shadow: none !important;
+                margin-bottom: 1rem !important;
+            }
         }
     </style>
 </head>
@@ -209,14 +214,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="#">
-                            <i class="bi bi-house"></i> Início</a></li>
-                    <li class="nav-item"><a class="nav-link" href="financeiro.html"><i class="bi bi-cash-coin"></i>
-                            Lançamentos Financeiros</a></li>
-                    <li class="nav-item"><a class="nav-link" href="usuarios.html"><i class="bi bi-people"></i>
-                            Usuários</a></li>
-                    <li class="nav-item"><a class="nav-link" href="relatorios.html"><i class="bi bi-newspaper"></i>
-                            Relatórios</a></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html"><i class="bi bi-house"></i> Início</a></li>
+                    <li class="nav-item"><a class="nav-link" href="financeiro.html"><i class="bi bi-cash-coin"></i> Lançamentos Financeiros</a></li>
+                    <li class="nav-item"><a class="nav-link" href="usuarios.html"><i class="bi bi-people"></i> Usuários</a></li>
+                    <li class="nav-item"><a class="nav-link" href="relatorios.html"><i class="bi bi-newspaper"></i> Relatórios</a></li>
                     <li class="nav-item">
                         <button class="btn btn-danger" onclick="logout()">
                             <i class="bi bi-box-arrow-right"></i> Sair</button>
@@ -227,52 +228,13 @@
     </nav>
 
     <div class="container py-5">
-        <h2>Meus Lançamentos</h2>
-        <div class="card">
-            <div class="card-body">
-                <form id="form-lancamento">
-                    <input type="hidden" id="id-edicao" />
-                    <div class="mb-3">
-                        <label for="tipo" class="form-label">Tipo</label>
-                        <select id="tipo" class="form-select">
-                            <option value="despesa">🔴 Despesa</option>
-                            <option value="receita">🟢 Receita</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="categoria" class="form-label">Categoria</label>
-                        <select id="categoria" class="form-select" required>
-                            <option value="">Selecione uma categoria</option>
-                            <option value="Alimentação">🍴 Alimentação</option>
-                            <option value="Transporte">🚗 Transporte</option>
-                            <option value="Aluguel">🏠 Aluguel</option>
-                            <option value="Salário">💰 Salário</option>
-                            <option value="Pet">🐶 Pet</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label for="valor" class="form-label">Valor</label>
-                        <input type="number" step="0.01" id="valor" class="form-control" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="descricao" class="form-label">Descrição</label>
-                        <input type="text" id="descricao" class="form-control" />
-                    </div>
-                    <div class="mb-3">
-                        <label for="data_ocorrencia" class="form-label">Data da Ocorrência</label>
-                        <input type="date" id="data_ocorrencia" class="form-control" required />
-                    </div>
-                    <div class="mb-3">
-                        <label for="data_vencimento" class="form-label">Data de Vencimento</label>
-                        <input type="date" id="data_vencimento" class="form-control" />
-                    </div>
-                    <button type="submit" class="btn btn-primary me-2">Salvar Lançamento</button>
-                    <button type="button" id="cancelar-edicao" class="btn btn-secondary d-none">Cancelar</button>
-                </form>
-            </div>
+        <h2>Extrato Financeiro</h2>
+
+        <div class="text-center mb-4">
+            <button id="printTable" class="btn btn-primary btn-print"><i class="bi bi-printer"></i> Imprimir Tabela</button>
         </div>
 
-        <div class="table-responsive mt-4">
+        <div class="table-responsive">
             <table class="table table-hover align-middle">
                 <thead>
                     <tr>
@@ -282,7 +244,6 @@
                         <th>Descrição</th>
                         <th>Ocorrência</th>
                         <th>Vencimento</th>
-                        <th>Ações</th>
                     </tr>
                 </thead>
                 <tbody id="tabela-lancamentos-corpo">
@@ -293,22 +254,29 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module">
+        // Importa a função createClient da biblioteca Supabase
         import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
 
+        // URL e chave pública (anon) do projeto Supabase
         const urlSupabase = 'https://xbzlkxbouhbqzymfcqel.supabase.co';
         const anon = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhiemxreGJvdWhicXp5bWZjcWVsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDU5MzQyMjgsImV4cCI6MjA2MTUxMDIyOH0.4ctWcUILnYN67ahItDf3comNcPzuVLz7Ach-nDYnQnk';
 
+        // Cria uma instância do cliente Supabase
         const supabase = createClient(urlSupabase, anon);
 
+        // Recupera a sessão do usuário armazenada localmente (se houver)
         const session = JSON.parse(localStorage.getItem('session'));
 
+        // Se não houver sessão, redireciona para a página de login
         if (!session) window.location.href = 'index.html';
 
+        // Extrai o ID do usuário autenticado
         const user_id = session.user.id;
 
-        // **Atualização:** Referência ao corpo da tabela
+        // Referência ao corpo da tabela onde os lançamentos serão listados
         const tabelaLancamentosCorpo = document.getElementById('tabela-lancamentos-corpo');
 
+        // Função para carregar os lançamentos do banco de dados
         async function carregarLancamentos() {
             const { data, error } = await supabase
                 .from('lancamentos')
@@ -316,9 +284,9 @@
                 .eq('user_id', user_id)
                 .order('data_vencimento', { ascending: false });
 
-            // Limpa o corpo da tabela antes de adicionar novos dados
-            tabelaLancamentosCorpo.innerHTML = '';
+            tabelaLancamentosCorpo.innerHTML = ''; // Limpa o corpo da tabela atual
 
+            // Se houver dados, cria elementos HTML para cada lançamento
             if (data) {
                 data.forEach(l => {
                     const row = document.createElement('tr');
@@ -332,92 +300,32 @@
                         <td>${l.descricao || 'N/A'}</td>
                         <td>${l.data_ocorrencia ? formatarDataBr(l.data_ocorrencia) : 'N/A'}</td>
                         <td>${l.data_vencimento ? formatarDataBr(l.data_vencimento) : 'Não Informado'}</td>
-                        <td>
-                            <button class="btn btn-sm btn-light me-2 editar" data-id="${l.id}" title="Editar"><i class="bi bi-pencil"></i></button>
-                            <button class="btn btn-sm btn-dark excluir" data-id="${l.id}" title="Excluir"><i class="bi bi-trash"></i></button>
-                        </td>
                     `;
                     tabelaLancamentosCorpo.appendChild(row);
                 });
-
-                document.querySelectorAll('.editar').forEach(btn => {
-                    btn.addEventListener('click', () => editarLancamento(btn.dataset.id));
-                });
-
-                document.querySelectorAll('.excluir').forEach(btn => {
-                    btn.addEventListener('click', () => excluirLancamento(btn.dataset.id));
-                });
             }
         }
 
-        document.getElementById('form-lancamento').addEventListener('submit', async (e) => {
-            e.preventDefault();
-
-            const id = document.getElementById('id-edicao').value;
-
-            const novo = {
-                user_id,
-                tipo: tipo.value,
-                categoria: categoria.value,
-                valor: parseFloat(valor.value),
-                descricao: descricao.value,
-                data_ocorrencia: data_ocorrencia.value,
-                data_vencimento: data_vencimento.value || null,
-            };
-
-            if (id) {
-                await supabase.from('lancamentos').update(novo).eq('id', id);
-            } else {
-                await supabase.from('lancamentos').insert(novo);
-            }
-
-            limparFormulario();
-            await carregarLancamentos();
+        // Adiciona evento ao botão de impressão
+        document.getElementById('printTable').addEventListener('click', () => {
+            window.print();
         });
 
-        function limparFormulario() {
-            document.getElementById('form-lancamento').reset();
-            document.getElementById('id-edicao').value = '';
-            document.getElementById('cancelar-edicao').classList.add('d-none');
-        }
-
-        async function editarLancamento(id) {
-            const { data } = await supabase.from('lancamentos').select('*').eq('id', id).single();
-            if (data) {
-                tipo.value = data.tipo;
-                categoria.value = data.categoria;
-                valor.value = data.valor;
-                descricao.value = data.descricao;
-                data_ocorrencia.value = data.data_ocorrencia || '';
-                data_vencimento.value = data.data_vencimento || '';
-                document.getElementById('id-edicao').value = data.id;
-                document.getElementById('cancelar-edicao').classList.remove('d-none');
-            }
-        }
-
-        async function excluirLancamento(id) {
-            if (confirm('Tem certeza que deseja excluir este lançamento?')) {
-                await supabase.from('lancamentos').delete().eq('id', id);
-                await carregarLancamentos();
-            }
-        }
-
-        document.getElementById('cancelar-edicao').addEventListener('click', () => {
-            limparFormulario();
-        });
-
+        // Chama a função de carregar lançamentos ao iniciar
         carregarLancamentos();
 
+        // Função para formatar data no padrão brasileiro (dd/mm/aaaa)
         function formatarDataBr(dataISO) {
             if (!dataISO) return 'Não Informado';
             const [ano, mes, dia] = dataISO.split('-');
             return `${dia}/${mes}/${ano}`;
         }
 
+        // Função de logout: encerra a sessão e redireciona para o login
         window.logout = async function () {
-            await supabase.auth.signOut();
-            localStorage.removeItem('session');
-            window.location.href = 'index.html';
+            await supabase.auth.signOut(); // Encerra a sessão no Supabase
+            localStorage.removeItem('session'); // Remove os dados locais
+            window.location.href = 'index.html'; // Redireciona para a tela de login
         }
     </script>
 
